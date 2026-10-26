@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { AUTH_COOKIE, isValidAuthCookie } from "@/lib/auth";
+import { AUTH_COOKIE, isValidSession } from "@/lib/session";
 
 // Next.js 16: middleware is now "proxy". Same functionality.
 export async function proxy(request: NextRequest) {
@@ -12,7 +12,7 @@ export async function proxy(request: NextRequest) {
   }
 
   const cookie = request.cookies.get(AUTH_COOKIE)?.value;
-  const ok = await isValidAuthCookie(cookie);
+  const ok = await isValidSession(cookie);
 
   if (ok) return NextResponse.next();
 

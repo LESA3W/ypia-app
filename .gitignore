@@ -53,3 +53,7 @@ next-env.d.ts
 
 # third-party agent tool cache
 .impeccable/
+
+# security audit report — NEVER publish (it maps live vulnerabilities)
+SECURITY-AUDIT.md
+.gstack/
