@@ -2,7 +2,7 @@
 
 # ypia. — Your Personal Intelligent Assistant
 
-<img src="docs/logo.png" alt="ypia" width="260" />
+<img src="docs/logo.png" alt="ypia" width="300" />
 
 **A personal assistant that lives in your Telegram, remembers you, and runs your day — plus the private web console to steer it.**
 
@@ -23,37 +23,35 @@
 
 ## What ypia does for you
 
-You text **ypia** on Telegram like you'd text a friend. It answers with Claude, but the difference is it **remembers you** — your projects, your people, your preferences — and it **acts**: it plans your day, sets reminders, and pings you before things happen. This repository is the private **web console** behind it: the cockpit where you watch the bot, edit its memory, and schedule its routines.
+Alexa sets a timer. Google tells you the weather. Then they forget you existed. **ypia is the opposite.** It's a Claude-powered assistant with a memory of your whole life and the personality of a sharp, no-BS advisor: it remembers your projects and your people, connects the dots across weeks, and **pushes back** instead of just saying "OK." It doesn't flatter you, it tells you the trade-off. This repository is the private console behind it.
 
-Here's what a normal day looks like for different people 👇
+Here's the difference, depending on who you are 👇
 
-**🚀 The founder / freelancer**
-> **You:** "What's on my plate today?"
-> **ypia:** "Standup at 10:00, the Q3 deck due 5pm, dinner with Sarah at 8. Want reminders 30 min before each?"
-> **You:** "Yes. And remember I keep mornings for deep work."
-> **ypia:** "Noted. I'll keep your mornings meeting-free when I plan your days."
+**You are a founder / freelancer**
+> **You:** "I think I'll launch a newsletter on the side."
+> **ypia:** "You've got two half-finished projects I'm already tracking. A newsletter is a third start, not a finish. What does it get you that shipping the app this week doesn't?"
 
-It remembers your clients, nudges you to send that invoice, and the console even shows you how much the bot is costing you in AI credits.
+It won't cheer for every idea. It stress-tests them, remembers what you left unfinished, and names the opportunity cost out loud.
 
-**🎓 The student**
-> **You:** "Remind me the CS20A assignment is due Thursday 11pm."
-> **ypia:** "Done. I'll ping you Wednesday evening and two hours before."
+**You are a student**
+> **You:** "I'll revise for the exam this weekend, promise."
+> **ypia:** "That's the same line as the last two exams. It's Thursday, block 90 minutes tonight and I'll check in at 7. Deal?"
 
-It keeps your class schedule, your deadlines, and answers quick questions — then proactively reminds you so nothing slips.
+It knows your deadlines, calls out the pattern when you're avoiding, and turns a vague intention into a time you'll actually show up.
 
-**👨‍👧 The busy parent**
-> **You:** "Dinner at 7, don't let me forget to defrost the chicken."
-> **ypia:** "Got it. I'll remind you at 5:30 to take it out."
+**You are juggling a hundred things**
+> **You:** "Don't let me forget the storage unit before I move."
+> **ypia:** "The one near the station you mentioned last week, for the car. You leave in 3 weeks. Want me to lock a deadline and nudge you Sunday?"
 
-Groceries, pickups, appointments — you offload the mental load and ypia keeps the thread.
+Tell it something once. It files it, links it to the rest of your life, and surfaces it at the exact right moment, not when you finally remember.
 
-**🏃 The everyday optimizer**
-> **You:** "What's the weather for my run tonight?"
-> **ypia:** "Clear, 14°C at 7pm, light wind — good conditions. Reminder to head out at 6:45?"
+**You are building or shipping something**
+> **You:** "How are things running?"
+> **ypia:** "214 messages this week, $0.80 in AI credits, zero errors. Side note: you haven't logged a reading session in 6 days, that goal's slipping."
 
-It checks the web when it needs to, remembers your habits, and gives you a straight answer with a nudge to actually do the thing.
+It watches the numbers for you and volunteers the uncomfortable one you didn't ask about.
 
-The magic is **continuity**: it's the same assistant every time, with the same memory of who you are — not a fresh chatbot that forgets you after each message.
+The point was never commands. It's a **relationship with continuity**: one assistant, one memory of who you are, honest enough to actually move you.
 
 ---
 
@@ -77,7 +75,7 @@ At-a-glance health: active toggle, estimated cost, message counts, error rate, l
 ![Overview](docs/screenshots/01-overview.png)
 
 ### Chat — the conversation
-The full Telegram thread, rendered with Markdown. This is ypia planning a day end-to-end: agenda, reminders, memory and a weather check.
+The full Telegram thread, rendered with Markdown. ypia planning a day end-to-end: agenda, reminders, memory and a weather check.
 
 ![Chat](docs/screenshots/02-chat.png)
 
