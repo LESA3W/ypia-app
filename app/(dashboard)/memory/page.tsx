@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState } from "@/components/common/states";
 import { useToast } from "@/components/ui/toast";
-import { apiMutate } from "@/lib/fetcher";
+import { apiMutate, ApiError } from "@/lib/fetcher";
 import { ProfileCard } from "@/components/memory/profile-card";
 import { Icon } from "@/components/ui/icon";
 
@@ -33,14 +33,32 @@ export default function MemoryPage() {
           memories.mutate();
           toast(t("memoryAdded"), "success");
         }}
-        onDelete={async (index) => {
-          await apiMutate("/api/memory/memories", "DELETE", { index });
-          memories.mutate();
-          toast(t("memoryDeleted"), "success");
+        onDelete={async (text) => {
+          try {
+            await apiMutate("/api/memory/memories", "DELETE", { text });
+            toast(t("memoryDeleted"), "success");
+          } catch (e) {
+            toast(e instanceof ApiError ? e.message : "Error", "error");
+          } finally {
+            memories.mutate();
+          }
         }}
       />
     </div>
   );
+}
+
+/** Memories are stored oldest-first with a "[dd/mm/yyyy]" prefix: show newest first.
+ *  The original index is only a stable React key; deletion goes by text. */
+function newestFirst(memories: string[]): { m: string; i: number }[] {
+  const dateOf = (m: string) => {
+    const d = m.match(/^\s*\[(\d{2})\/(\d{2})\/(\d{4})\]/);
+    return d ? Date.UTC(+d[3], +d[2] - 1, +d[1]) : 0;
+  };
+  return memories
+    .map((m, i) => ({ m, i, t: dateOf(m) }))
+    .sort((a, b) => b.t - a.t || b.i - a.i)
+    .map(({ m, i }) => ({ m, i }));
 }
 
 function MemoriesList({
@@ -52,7 +70,7 @@ function MemoriesList({
   memories?: string[];
   loading: boolean;
   onAdd: (text: string) => Promise<void>;
-  onDelete: (index: number) => Promise<void>;
+  onDelete: (text: string) => Promise<void>;
 }) {
   const t = useTranslations("memory");
   const [text, setText] = useState("");
@@ -94,11 +112,11 @@ function MemoriesList({
           <EmptyState message={t("noMemories")} icon="memory" />
         ) : (
           <ul className="space-y-1.5">
-            {memories.map((m, i) => (
+            {newestFirst(memories).map(({ m, i }) => (
               <li key={i} className="group flex items-start gap-2 rounded-md border border-line bg-surface-2 px-3 py-2 text-sm">
                 <span className="min-w-0 flex-1 break-anywhere">{m}</span>
                 <button
-                  onClick={() => onDelete(i)}
+                  onClick={() => onDelete(m)}
                   className="shrink-0 p-1 text-muted-2 opacity-0 transition-opacity hover:text-danger group-hover:opacity-100 max-md:opacity-100"
                   aria-label={t("deleteMemory")}
                 >

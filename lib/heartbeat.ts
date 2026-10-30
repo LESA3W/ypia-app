@@ -77,8 +77,10 @@ export async function createHeartbeat(intervalMin: number): Promise<{ scheduleId
 
 /** Change interval = delete current heartbeat schedule + recreate (QStash is immutable). */
 export async function setHeartbeatInterval(intervalMin: number): Promise<{ scheduleId: string }> {
-  const status = await getHeartbeatStatus();
-  if (status.scheduleId) await deleteSchedule(status.scheduleId).catch(() => {});
+  // listSchedules() without a catch: a lookup failure must abort, not create a duplicate.
+  const schedules = await listSchedules();
+  const current = schedules.filter((s) => (s.destination || "").replace(/\/$/, "").endsWith("/api/heartbeat"));
+  for (const s of current) await deleteSchedule(s.scheduleId);
   return createHeartbeat(intervalMin);
 }
 

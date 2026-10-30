@@ -55,7 +55,10 @@ export async function getSchedule(id: string): Promise<QStashSchedule | null> {
   const res = await fetchWithTimeout(`${env.QSTASH_URL}/v2/schedules/${encodeURIComponent(id)}`, {
     headers: auth(),
   });
-  if (!res.ok) return null;
+  // null only when the schedule is really gone; any other failure (429, 5xx) must
+  // abort the caller instead of being mistaken for "does not exist".
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`QStash get ${res.status}: ${(await res.text()).slice(0, 120)}`);
   const text = await res.text();
   if (!text) return null;
   return mapSchedule(JSON.parse(text) as RawSchedule);

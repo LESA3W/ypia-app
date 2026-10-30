@@ -82,11 +82,10 @@ export async function addMemory(text: string): Promise<void> {
   await redis().ltrim(K.memories(), -50, -1);
 }
 
-/** Delete by list index using a sentinel + lrem (index-shift safe). */
-export async function deleteMemory(index: number): Promise<void> {
-  const sentinel = `__DELETED_${index}_${Date.now() % 100000}__`;
-  await redis().lset(K.memories(), index, sentinel);
-  await redis().lrem(K.memories(), 1, sentinel);
+/** Delete by value, not index: the list is capped (ltrim -50) so indexes shift
+ *  whenever the bot adds a memory. Returns false if the text is no longer there. */
+export async function deleteMemory(text: string): Promise<boolean> {
+  return (await redis().lrem(K.memories(), 1, text)) > 0;
 }
 
 // ---------- History (LIST of JSON strings) ----------
